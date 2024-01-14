@@ -17,7 +17,7 @@ app.get('/api/notes', (req, res) => {
         let dbData = JSON.parse(data);
         //Returns new database
         res.json(dbData);
-    });   
+    });
 });
 
 //Post
@@ -28,3 +28,31 @@ app.post('/api/notes', (req, res) => {
     fs.writeFileSync(db, JSON.stringify(db));
     res.json(db);
 });
+
+//Delete
+app.delete('/api/notes/:id', (req, res) => {
+    const newDb = db.filter((note) =>
+        note.id !== req.params.id);
+    fs.writeFileSync('./db/db.json', JSON.stringify(newDb));
+    readFile.json(newDb);
+});
+
+//HTML routes
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
+
+//Notes
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'notes.html'));
+})
+
+//Wildcard 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
+
+//App listener
+app.listen(PORT, () =>
+    console.log(`App listening on ${PORT}`));
