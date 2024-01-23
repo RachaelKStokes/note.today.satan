@@ -30,7 +30,7 @@ app.post('/api/notes', (req, res) => {
         const reviews = data ? JSON.parse(data) : [];
         const newNote = req.body;
         console.log(req.body.id);
-            reviews.push({newNote, id: uuid});
+            reviews.push({...newNote, id: uuid()});
         const reviewsStr = JSON.stringify(reviews);
         fs.writeFileSync('db/db.json', reviewsStr);
         res.json(req.body);
